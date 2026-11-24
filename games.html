@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<title>Zinomi Game Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="css/games.css">
+</head>
+<body class="locked">
+<div class="app">
+<aside class="sidebar panel">
+ <div class="brand">
+  <div class="zlogo-wrap"><img class="zlogo" src="images/game-hub-logo.png" alt="Zinomi Game Hub logo"><div class="zname"><strong>Zinomi Game Hub</strong></div></div>
+ </div>
+ <nav>
+  <button class="nav-btn active" data-tab="library"><span><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span> Library</button>
+  <button class="nav-btn cart-open"><span><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/><path d="M2 3h3l2.6 12.4a1 1 0 0 0 1 .8h8.8a1 1 0 0 0 1-.8L20 8H6"/></svg></span> My Cart <i class="cart-badge" hidden>0</i></button>
+  <button class="nav-btn admin" data-tab="adding"><span><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span> Add / Edit</button>
+  <button class="nav-btn admin" data-tab="drives"><span><svg viewBox="0 0 24 24"><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M5 13l2-8h10l2 8M7 16.5h.01"/></svg></span> Drives</button>
+  <button class="nav-btn admin" data-tab="stats"><span><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span> Insights</button>
+  <button class="nav-btn admin" data-tab="ratings"><span><svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg></span> Game Ratings</button>
+ </nav>
+ <div class="side-title admin">Manage</div>
+ <button class="nav-btn" id="clientBtn"><span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span> <b id="clientLbl" style="font-weight:700">Client Mode</b></button>
+ <button class="nav-btn admin" id="backupBtn"><span><svg viewBox="0 0 24 24"><path d="M12 4v12m-5-5 5 5 5-5M5 20h14"/></svg></span> Back up data</button>
+ <button class="nav-btn admin" id="restoreBtn"><span><svg viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5M5 20h14"/></svg></span> Restore data</button>
+ <button class="nav-btn admin" id="csvBtn"><span><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span> Export CSV</button>
+ <button class="nav-btn admin" id="impBtn"><span><svg viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5M5 20h14"/></svg></span> Import details (CSV)</button>
+ <input type="file" id="impFile" accept=".csv,text/csv" hidden>
+ <button class="nav-btn admin" id="catBtn"><span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span> Export Catalog</button>
+  <button class="nav-btn admin" id="pdfBtn"><span><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></span> PDF Catalog</button>
+ <button class="nav-btn" id="sfxBtn"><span><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9zM17 8a5 5 0 0 1 0 8"/></svg></span> Sound on</button>
+ <button class="nav-btn" id="themeBtn"><span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></span> Theme</button>
+  <button class="nav-btn" id="fsBtn"><span><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></span> Fullscreen</button>
+ <button class="nav-btn admin" id="shopBtn"><span><svg viewBox="0 0 24 24"><path d="M4 9l1.5-5h13L20 9M4 9v11h16V9M4 9a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0A2.7 2.7 0 0 0 20 9M10 20v-5h4v5"/></svg></span> Shop Settings</button>
+ <button class="nav-btn admin" id="lockBtn"><span><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span> Lock Hub</button>
+ <button class="nav-btn admin" id="pwBtn"><span><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9m-3 3 3 3"/></svg></span> Access Key</button>
+ <button class="nav-btn admin" id="shrinkBtn"><span><svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6m4-6v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></span> Free Up Space</button>
+ <div class="sys admin"><b>Browser storage</b><span id="storTxt">checking…</span><div class="bar" style="margin-top:6px"><i id="storBar" style="width:2%"></i></div></div>
+ <input type="file" id="importFile" accept="application/json" hidden>
+ <div class="sys admin"><b><i class="pulse-dot"></i> Saved locally</b>Data stays in this browser. Back up regularly.</div>
+</aside>
+
+<main class="main">
+ <header class="topbar">
+  <div><h1 id="shopTitle">Zinomi Game Hub</h1><div class="sub">Your gaming library · RAWG-powered ratings</div></div>
+  <div class="actions">
+   <button class="btn admin" id="ratingsOpenBtn" title="Open the game ratings dashboard">⭐ Game Ratings</button>
+   <button class="btn buy cart-btn cart-open" title="Open cart">Cart <i class="cart-badge" hidden>0</i></button>
+   <button class="btn cyber" id="randomBtn" title="Pick a random game">Surprise me</button>
+   <button class="btn primary admin" id="addBtn">Add game</button>
+  </div>
+ </header>
+ <div id="heroTop">
+  <div class="hero" id="hero" hidden></div>
+  <div id="heroRowWrap" hidden><div class="row-t">Continue Playing</div><div class="hero-row" id="heroRow"></div></div>
+  <div id="moreRows"></div>
+ </div>
+ <div class="client-banner">👋 Browse the games and tap <b>Add to cart</b> on the ones you want. When you are done, open your cart and send the order.</div>
+ <section class="stats">
+  <div class="stat"><b id="totalCount">0</b><span>Total games</span></div>
+  <div class="stat"><b id="totalSize">0 GB</b><span>Total size</span></div>
+  <div class="stat"><b id="totalValue">Rs. 0</b><span>Total value</span></div>
+  <div class="stat"><b id="unassigned">0</b><span>Unassigned</span></div>
+ </section>
+
+ <section class="section active" id="library">
+  <div class="toolbar">
+   <input id="search" placeholder="⌕ Search title, notes, platform, HDD…  [Press /]">
+   <select id="diskFilter" class="admin"></select>
+   <select id="sort">
+    <option value="new">Recently added</option><option value="az">Name A–Z</option><option value="za">Name Z–A</option>
+    <option value="price">Price ↑</option><option value="pricedesc">Price ↓</option><option value="size">Size ↑</option><option value="sizedesc">Size ↓</option><option value="ratingdesc">RAWG rating ↓</option><option value="personaldesc">My rating ↓</option>
+   </select>
+   <select id="genreFilter"><option value="">All genres</option></select>
+   <select id="minRatingFilter" title="Minimum RAWG rating"><option value="0">Any rating</option><option value="6">RAWG 6+</option><option value="7">RAWG 7+</option><option value="8">RAWG 8+</option><option value="9">RAWG 9+</option><option value="-1">Not rated (N/A)</option></select>
+   <input id="maxPrice" class="rng" type="number" min="0" placeholder="Max price">
+   <input id="maxSize" class="rng" type="number" min="0" placeholder="Max GB">
+   <select id="statusFilter" class="admin"><option value="">Any status</option><option value="backlog">Backlog</option><option value="playing">Playing</option><option value="completed">Completed</option></select>
+   <button class="chip w admin" id="wishOnly" title="Wishlist (not owned yet)">🎁</button>
+   <button class="chip admin" id="favOnly" title="Favorites only">★</button>
+   <button class="chip" id="viewBtn" title="Toggle grid / list">☰</button>
+  </div>
+  <div class="count" id="resultCount"></div>
+  <div class="game-grid" id="gameGrid"></div>
+  <div class="empty" id="empty" hidden></div>
+ </section>
+
+ <section class="section" id="sales">
+  <h2 class="t">Sales log</h2>
+  <p class="sub" style="margin-top:-6px;margin-bottom:14px">Orders sent from this device appear here as <b>Pending</b>. Tap ✓ once the client has paid. Only confirmed sales count in the totals.</p>
+  <div class="stats" id="salesStats"></div>
+  <div class="actions" style="margin-bottom:12px"><button class="btn small" id="saleAdd">+ Add sale</button><button class="btn small" id="saleCsv">Export CSV</button><button class="btn small" id="saleClear">Clear all</button></div>
+  <div class="panel pad"><div id="salesList"></div></div>
+ </section>
+
+ <section class="section" id="drives">
+  <h2 class="t">Storage drives</h2>
+  <p class="sub" style="margin-top:-6px;margin-bottom:14px">Select a drive to filter your library. Click ✎ to set its capacity.</p>
+  <div class="hdd-grid" id="hddSummary"></div>
+  <div class="actions"><button class="btn small" id="addHdd">Add drive</button></div>
+ </section>
+
+ <section class="section" id="stats">
+  <div class="two">
+   <div class="panel pad"><h2 class="t">Largest installs</h2><div id="topSize"></div></div>
+   <div class="panel pad"><h2 class="t">Highest value</h2><div id="topPrice"></div></div>
+   <div class="panel pad"><h2 class="t">Games per drive</h2><div id="perHdd"></div></div>
+   <div class="panel pad"><h2 class="t">Library insights</h2><div id="insights"></div></div>
+  </div>
+ </section>
+
+ <section class="section" id="ratings">
+  <div class="panel pad" style="margin-bottom:16px">
+   <div style="display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap">
+    <div><h2 class="t" style="margin-bottom:4px">🎮 Game Ratings Intelligence</h2><div class="sub">RAWG community scores + your own personal ratings</div></div>
+    <div class="actions"><button class="btn primary" id="importRatingsBtn">Import ratings for all games</button><button class="btn" id="retryRatingsBtn">Retry missing ratings</button></div>
+    <label class="hint" style="display:flex;gap:8px;align-items:center;margin-top:10px;cursor:pointer"><input type="checkbox" id="autoRetryChk"> Auto-retry missing ratings in the background (up to 10 per visit, each game at most once a week)</label>
+   </div>
+   <div class="hint" id="ratingProgress" aria-live="polite">Connect your Supabase function below to begin.</div>
+   <div class="bar" style="margin-top:10px"><i id="ratingProgressBar" style="width:0%"></i></div>
+  </div>
+  <div class="two" style="margin-bottom:16px">
+   <div class="panel pad"><div class="sub">Games in library</div><div id="ratingTotal" style="font-size:27px;font-weight:700">0</div></div>
+   <div class="panel pad"><div class="sub">Games with RAWG ratings</div><div id="ratingRated" style="font-size:27px;font-weight:700">0</div></div>
+   <div class="panel pad"><div class="sub">Average RAWG score / 10</div><div id="ratingAverage" style="font-size:27px;font-weight:700;color:#e5ad58">—</div></div>
+   <div class="panel pad"><div class="sub">Average of your ratings / 10</div><div id="personalAverage" style="font-size:27px;font-weight:700;color:#e5ad58">—</div></div>
+  </div>
+  <div class="two">
+   <div class="panel pad"><h2 class="t">🏆 Top 10 highest-rated games</h2><div id="topRatedGames"></div></div>
+   <div class="panel pad"><h2 class="t">🎭 Genre statistics</h2><div id="ratingGenreStats"></div></div>
+  </div>
+  <div class="panel pad" style="margin-top:16px">
+   <h2 class="t">API connection settings</h2>
+   <label>Supabase Edge Function URL</label>
+   <input id="ratingEndpoint" value="https://prhfkwwijhczdeybmvar.supabase.co/functions/v1/dynamic-action" spellcheck="false">
+   <label style="margin-top:12px">Supabase Publishable Key</label>
+   <input id="ratingPublicKey" type="password" autocomplete="off" placeholder="Paste your sb_publishable_… key">
+   <div class="hint">Use your Supabase Publishable key only. Never paste a service_role key or RAWG API key here. The RAWG key stays in Supabase Secrets.</div>
+   <div class="actions" style="margin-top:12px"><button class="btn primary" id="saveRatingConfig">Save connection</button><button class="btn" id="testRatingConnection">Test connection</button></div>
+   <div class="hint" id="ratingConfigStatus" aria-live="polite"></div>
+  </div>
+ </section>
+
+ <section class="section" id="adding">
+  <div class="formbox panel">
+   <h2 id="formTitle" style="font-size:20px;font-weight:650;margin:0 0 4px">Add a game</h2>
+   <p class="sub" style="margin:0 0 18px">Add the game details and choose a storage drive.</p>
+   <form id="gameForm">
+    <div class="fg">
+     <div class="full">
+      <label>Game title *</label>
+      <div style="display:flex;gap:8px">
+       <input id="gameName" required maxlength="100" placeholder="Cyberpunk 2077">
+       <button type="button" class="btn small" id="autoCoverBtn" title="Search cover art online">Find cover</button>
+      </div>
+      <div class="hint warn" id="dupHint" hidden></div>
+     </div>
+     <div class="full">
+      <label>Poster Image URL</label>
+      <input id="gameImageUrl" type="url" maxlength="1000" placeholder="https://example.com/poster.jpg">
+      <div class="hint">Optional: Link directly to a high-quality game poster image (e.g., from IGDB or Steam). Overrides the local upload if provided.</div>
+     </div>
+     <div><label>Price (Rs.)</label><input id="gamePrice" type="number" min="0" step="0.01" placeholder="4500"></div>
+     <div><label>Sale price (Rs., optional)</label><input id="gameSale" type="number" min="0" step="0.01" placeholder="Discount price"></div>
+     <div><label>Install size (GB)</label><input id="gameSize" type="number" min="0" step="0.01" placeholder="105"></div>
+     <div><label>Hard disk slot</label><select id="gameDisk"></select><div class="hint" id="spaceHint"></div></div>
+     <div><label>Platform</label><input id="gamePlat" maxlength="20" placeholder="PC, PS5, Switch…" list="plats"></div>
+     <div><label>Play status</label><select id="gameStatus"><option value="">No status</option><option value="backlog">Backlog</option><option value="playing">Playing</option><option value="completed">Completed</option></select></div>
+     <div><label>&nbsp;</label><label style="display:flex;gap:8px;align-items:center;letter-spacing:0;font-size:14px;color:var(--text);padding-top:8px;font-family:var(--font-ui)"><input type="checkbox" id="gameWish" style="width:auto"> 🎁 Wishlist (not owned yet)</label></div>
+     <div class="full"><label>Home page rows</label><div style="display:flex;gap:22px;flex-wrap:wrap;padding-top:6px"><label style="display:flex;gap:8px;align-items:center;letter-spacing:0;font-size:14px;color:var(--text);font-family:var(--font-ui)"><input type="checkbox" id="gamePopular" style="width:auto"> ⭐ Show in Popular Games (hero)</label><label style="display:flex;gap:8px;align-items:center;letter-spacing:0;font-size:14px;color:var(--text);font-family:var(--font-ui)"><input type="checkbox" id="gameIsNew" style="width:auto" checked> 🔥 Show in New Arrivals</label></div></div>
+     <div class="full"><label>Cover image</label>
+      <input id="gameImage" type="file" accept="image/*" hidden>
+      <div class="preview" id="preview">Click, drop or paste cover art</div>
+      <div class="hint">Auto-compressed (WebP, 480px) to save browser storage.</div></div>
+     <div class="full dm-sep" style="margin-top:6px">Game details (shown when a client opens the game)</div>
+     <div><label>Genre</label><input id="gameGenre" maxlength="60" placeholder="Action RPG, Racing…"></div>
+     <div><label>Release year</label><input id="gameYear" type="number" min="1970" max="2100" placeholder="2020"></div>
+     <div><label>My personal rating (0–10)</label><input id="gamePersonalRating" type="number" min="0" max="10" step="0.5" placeholder="e.g. 9.5"></div>
+     <div class="full"><label>Description</label><textarea id="gameDesc" maxlength="800" rows="3" placeholder="Short info about the game for your client…"></textarea></div>
+     <div class="dm-sep">Minimum system requirements</div><div><label>OS</label><input id="rqMinOS" maxlength="80" placeholder="Windows 10 64-bit"></div><div><label>Processor</label><input id="rqMinCPU" maxlength="80" placeholder="Intel Core i5-3570K"></div><div><label>Memory (RAM)</label><input id="rqMinRAM" maxlength="80" placeholder="8 GB"></div><div><label>Graphics card</label><input id="rqMinGPU" maxlength="80" placeholder="GTX 780 / 3 GB"></div>
+     <div class="full"><label>Notes</label><textarea id="gameNote" maxlength="500" rows="3" placeholder="Edition, DLCs, mods, save location…"></textarea></div>
+    </div>
+    <div class="fa"><button class="btn primary" type="submit" id="saveBtn">Save game</button><button class="btn" type="button" id="clearBtn">Reset</button></div>
+   </form>
+   <datalist id="plats"><option>PC<option>PS5<option>PS4<option>Xbox<option>Switch<option>Steam Deck</datalist>
+  </div>
+ </section>
+</main>
+</div>
+
+
+<!-- GAME DETAIL MODAL -->
+<div id="detailModal"><div class="dm-box" id="dmBox"></div></div>
+
+<!-- CART DRAWER -->
+<div id="cartOverlay"></div>
+<aside id="cartDrawer" aria-label="Shopping cart">
+ <div class="cd-head"><h3>Your cart</h3><button class="btn small" id="cartClose">Close</button></div>
+ <div class="cd-items" id="cartItems"></div>
+ <div class="cd-foot" id="cartFoot">
+  <div class="cd-sum">
+   <div>Games<b id="cSumCount">0</b></div>
+   <div>Total size<b id="cSumSize">0 GB</b></div>
+   <div class="tot">Total price<b id="cSumPrice">Rs. 0</b></div>
+  </div>
+  <input id="cName" placeholder="Your name (optional)" maxlength="60">
+  <textarea id="cNote" rows="2" maxlength="300" placeholder="Message for the shop (optional)"></textarea>
+  <div class="cd-btns">
+   <button class="btn wa" id="cWa">Send order on WhatsApp</button>
+   <button class="btn" id="cCopy">Copy list</button>
+   <button class="btn" id="cDl">Save list</button>
+   <button class="btn red" id="cClear" style="grid-column:1/-1">Empty cart</button>
+  </div>
+ </div>
+</aside>
+
+<!-- RANDOM GAME ROULETTE MODAL -->
+<div id="rouletteModal">
+ <div class="rm-box">
+  <div class="rm-title">How about this one?</div>
+  <div class="rm-card">
+   <div class="rm-cover" id="rmCover">🎮</div>
+   <div class="rm-name" id="rmName">---</div>
+   <div class="rm-meta" id="rmMeta">---</div>
+  </div>
+  <div style="display:flex;gap:10px;justify-content:center">
+   <button class="btn cyber" id="rmSpinAgain">Pick another</button>
+   <button class="btn buy" id="rmCart">Add to cart</button>
+   <button class="btn primary" id="rmClose">Close</button>
+  </div>
+ </div>
+</div>
+
+<canvas id="fx" style="position:fixed;inset:0;pointer-events:none;z-index:99"></canvas>
+<div id="gate">
+ <div class="gbox" id="gbox" hidden style="display:none">
+  <div class="logo big">Z</div><h1>Zinomi Game Hub</h1><div class="sub" id="gSub"></div>
+  <input id="pw" type="password" placeholder="••••••••" autocomplete="off">
+  <input id="pw2" type="password" placeholder="Confirm key" autocomplete="off" hidden>
+  <div class="hint warn" id="gErr" style="min-height:18px"></div>
+  <button class="btn primary" id="gBtn" style="width:100%;margin-top:8px"></button>
+  <div class="gl"><a id="showPw">Show</a><a id="forgot">Reset Key?</a></div>
+ </div>
+ <div class="boot" id="boot" hidden><div class="zlogo-wrap big"><img class="zlogo" src="images/game-hub-logo.png" alt="Zinomi Game Hub logo"><div class="zname"><strong>Zinomi Game Hub</strong></div></div><div id="bootMsg"></div><div class="bar"><i id="bootBar"></i></div></div>
+</div>
+<div id="toast"><span id="toastMsg"></span><button id="undoBtn" hidden>UNDO</button></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ZX-UPGRADE -->
+
+
+<!-- ZX-LOGO --><!-- ZN-NEON --><link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+
+<script src="js/games.js"></script>
+</body>
+</html>

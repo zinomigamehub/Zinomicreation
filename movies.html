@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<title>Zinomi Movie Hub // Film Store Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Cinzel:wght@700;900&family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+
+
+
+<link rel="stylesheet" href="css/movies.css">
+</head>
+<body>
+<div id="zSplash" role="status" aria-live="polite"><div class="zs-box"><img class="zs-logo" src="images/movie-hub-logo.png" alt="Zinomi Movie Hub"><div class="zs-name">ZINOMI MOVIE HUB</div><div class="zs-msg" id="zsMsg">STARTING PROJECTOR…</div><div class="zs-bar"><i id="zsBar"></i></div></div></div>
+
+
+<aside class="side">
+ <div class="logo zl"><img class="zlogo" src="images/movie-hub-logo.png" alt="Zinomi Movie Hub logo"></div>
+ <button data-go="library" class="on" title="Home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10H3z"/></svg></button>
+ <button data-go="library" title="Catalog"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg></button>
+ <button class="adm" data-go="add" title="Add film"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg></button>
+ <button class="adm" data-go="notes" title="Notes"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
+ <button data-mode="series" title="TV Series"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M8 21h8M12 18v3M9 3l3 3 3-3"/></svg></button>
+ <div class="sp"></div>
+ <button class="adm" id="sideBackup" title="Backup"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></button>
+</aside>
+<header>
+ <div class="brand"><div class="logo zl"><img class="zlogo" src="images/movie-hub-logo.png" alt="Zinomi Movie Hub logo"></div><div><h1 class="wordmark"><span class="z1">Zinomi</span> <span class="z2">Movie Hub</span></h1><div class="sub">FILM STORE</div></div></div>
+ <nav class="topnav">
+  <button class="tab active" data-tab="library" data-mode="movie">Movies</button>
+  <button class="tab" data-tab="library" data-mode="series">TV Series</button>
+  <button class="tab adm" data-tab="add">Add Film</button>
+  <button class="tab adm" data-tab="notes">Notes &amp; Orders</button>
+ </nav>
+ <div class="header-actions">
+  <button class="btn" id="adminBtn">🔒 Admin</button>
+  <button class="btn adm" id="publishBtn" title="Download films.json for your live site">⬆ Publish</button>
+  <button class="btn adm" id="settingsBtn">⚙ Settings</button>
+  <button class="btn cinema adm" id="exportCsvBtn" title="Download price list as CSV">Price List (CSV)</button>
+  <button class="btn cinema adm" id="pdfCatBtn" title="Customer catalogue with IMDb ratings. Print it or save as PDF">PDF Catalogue</button>
+  <button class="btn adm" id="reportBtn">📊 Report</button>
+   <button class="btn adm" id="backupBtn">Backup</button>
+  <button class="btn adm" id="restoreBtn">Restore</button>
+  <input type="file" id="restoreFile" accept=".json,application/json" hidden>
+  <button class="btn primary adm" id="quickAdd">＋ Add Film</button>
+ </div>
+</header>
+
+<main>
+<div id="homeTop">
+ <section id="hero">
+  <div class="bg" id="heroBg"></div>
+  <div class="hero-text">
+   <span class="live">● Now Showing</span>
+   <h2 id="heroTitle">Welcome to Zinomi</h2>
+   <div class="hero-meta" id="heroMeta"></div>
+   <div class="season-chips" id="heroSeasons"></div>
+   <div class="hero-desc" id="heroDesc">Add your first film to see it featured here.</div>
+   <div class="hero-btns"><button class="btn primary" id="heroTrailer">Trailer</button><button class="btn adm" id="heroPopBtn">⭐ Popular</button><button class="btn wa" id="heroBuy">💬 Buy</button><button class="btn plus adm" id="heroAdd" title="Add film">+</button></div>
+  </div>
+  <div class="hero-poster" id="heroPoster">🎬</div>
+  <div class="arrows"><button id="heroPrev">‹</button><button id="heroNext">›</button></div>
+ </section>
+ <div id="bundleBar" hidden></div>
+ <div class="pop" id="popRow" hidden style="display:none"></div>
+ <div id="moreRows"></div>
+</div>
+ <section class="stats adm">
+  <div class="stat"><b id="movieCount">0</b><span>TOTAL FILMS</span></div>
+  <div class="stat"><b id="watchedCount">0</b><span>AVAILABLE</span></div>
+  <div class="stat"><b id="watchlistCount">0</b><span>SOLD</span></div>
+  <div class="stat"><b id="noteCount">0</b><span>REVENUE (SOLD)</span></div>
+ </section>
+
+
+ <section class="panel active" id="library">
+  <div class="toolbar">
+   <input class="search" id="search" placeholder="⌕ Search title, genre, language, quality, year…">
+   <div class="filters">
+    <select id="genreFilter"><option value="">All genres</option></select>
+    <select id="langFilter"><option value="">All languages</option></select>
+    <button class="chip adm" id="selModeBtn" title="Select several movies to edit together">☑ Select</button>
+     <button class="chip" id="subOnlyChip" title="Show only movies with Sinhala subtitles">✔ Sinhala Sub only</button>
+     <button class="chip adm" id="unkChip" title="Show movies whose Sinhala sub is not checked yet">❔ Not checked (0)</button>
+     <select id="subFilter">
+      <option value="">All subtitles</option>
+      <option value="yes">✔ With Sinhala Sub</option><option value="no">✖ No Sinhala Sub</option><option value="unk">? Not checked</option>
+     </select>
+     <select id="statusFilter">
+     <option value="">All status</option>
+     <option value="available">Available</option><option value="reserved">Reserved</option><option value="sold">Sold</option>
+    </select>
+    <select id="sort">
+     <option value="new">Recently added</option>
+     <option value="az">Title A–Z</option>
+     <option value="za">Title Z–A</option>
+     <option value="year">Year: newest</option>
+     <option value="pl">Price: low → high</option><option value="ph">Price: high → low</option>
+     <option value="rating">IMDb rating: high → low</option>
+    </select>
+    <select id="minRatingFilter" title="Filter by IMDb rating"><option value="">Any rating</option><option value="6">IMDb 6+</option><option value="7">IMDb 7+</option><option value="8">IMDb 8+</option><option value="na">Not rated (N/A)</option></select>
+    <button class="chip fav" id="favFilter" title="Favorites only">♥</button>
+   </div>
+  </div>
+  <div class="count-bar" id="countBar"></div>
+  <div class="grid" id="movieGrid"></div>
+  <div style="text-align:center;margin:22px 0"><button class="btn" id="moreBtn" hidden>Load more</button></div>
+  <div class="empty" id="emptyLibrary" hidden><b>Your catalog is empty</b>Click “＋ Add Film” to add your first film for sale.</div>
+ </section>
+
+ <section class="panel" id="add">
+  <div class="form-wrap">
+   <h2 id="formHeading" style="font-family:var(--font-display);margin:0 0 4px">Add a Movie</h2>
+   <p style="color:var(--muted);font-size:13px;margin:0 0 20px">Add film details, price, quality and poster. Everything is stored in your browser.</p>
+   <form id="movieForm">
+    <input type="hidden" id="movieId">
+    <div class="form-grid">
+     <div class="field"><label for="itemType">TYPE</label><select id="itemType"><option value="movie">🎬 Movie</option><option value="series">📺 TV Series</option></select></div>
+     <div class="field full" id="seriesFields" style="display:none"><label>SEASONS &amp; COMPLETED EPISODES</label><div id="seasonRows"></div><div><button type="button" class="btn small" id="addSeasonBtn">＋ Add Season</button></div></div>
+     <div class="field">
+      <label for="movieName">MOVIE TITLE *</label>
+      <div style="display:flex;gap:8px">
+       <input id="movieName" required maxlength="180" placeholder="e.g. Dune: Part Two"><div id="dupWarn" hidden style="color:#f0b429;font:600 12px var(--font-sans);margin-top:5px"></div>
+       <button type="button" class="btn small" id="findPosterBtn" title="Search poster image on Google">🔍 Poster</button>
+       <button type="button" class="btn small primary" id="autoFillBtn" title="Auto-fill poster, genre, synopsis, trailer">✨ Auto-fill</button>
+      </div>
+     </div>
+     <div class="field"><label for="movieYear">RELEASE YEAR</label><input id="movieYear" type="number" min="1888" max="2100" placeholder="e.g. 2025"></div>
+     <div class="field"><label for="movieGenre">GENRE</label><input id="movieGenre" maxlength="60" placeholder="Sci-Fi, Thriller, Drama…" list="genreHints"></div>
+     <div class="field"><label for="movieLanguage">LANGUAGE</label><input id="movieLanguage" maxlength="60" placeholder="English, Sinhala, Malayalam…" list="langHints"></div>
+     <div class="field">
+      <label for="movieStatus">SALE STATUS</label>
+      <select id="movieStatus">
+       <option value="available">🟢 Available</option><option value="reserved">🟡 Reserved</option>
+       <option value="sold">🔴 Sold</option>
+      </select>
+     </div>
+     <div class="field"><label for="moviePrice">PRICE (Rs.)</label><input id="moviePrice" type="number" min="0" step="any" placeholder="e.g. 250"><div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"><button type="button" class="btn small" data-price="150">150</button><button type="button" class="btn small" data-price="250">250</button><button type="button" class="btn small" data-price="350">350</button><button type="button" class="btn small" data-price="500">500</button></div></div>
+     <div class="field"><label for="salePrice">SALE PRICE (Rs., OPTIONAL)</label><input id="salePrice" type="number" min="0" step="any" placeholder="Discount price"></div>
+     <div class="field"><label for="movieQuality">QUALITY</label><input id="movieQuality" list="qHints" maxlength="30" placeholder="4K, 1080p, 720p…"></div>
+     <div class="field"><label for="movieSinSub">SINHALA SUBTITLES</label><select id="movieSinSub"><option value="">❔ Not checked</option><option value="yes">✔ With Sinhala Sub</option><option value="no">✖ No Sinhala Sub</option></select></div>
+     <div class="field"><label for="movieSize">FILE SIZE (GB)</label><input id="movieSize" type="number" min="0" step="any" placeholder="e.g. 2.4"></div>
+     <div class="field full"><label for="posterUrl">POSTER IMAGE URL (OPTIONAL)</label><input id="posterUrl" type="url" placeholder="https://example.com/poster.jpg"></div>
+     <div class="field full">
+      <label>OR UPLOAD / DRAG / PASTE POSTER IMAGE</label>
+      <div class="preview-box">
+       <div class="preview" id="posterPreview" title="Click to choose file">Click / Drop<br>Poster</div>
+       <div style="flex:1">
+        <input id="posterFile" type="file" accept="image/*" style="margin-bottom:6px">
+        <small style="color:var(--muted);display:block">Uploaded posters are auto-compressed so you can store 1,000+ movies smoothly. You can also press <b>Ctrl+V</b> anywhere on this form to paste a copied image.</small>
+       </div>
+      </div>
+     </div>
+     <div class="field full"><label for="trailerUrl">TRAILER YOUTUBE LINK (OPTIONAL)</label><div style="display:flex;gap:8px"><input id="trailerUrl" placeholder="https://youtu.be/xxxxxxxxxxx"><button type="button" class="btn small" id="findTrailerBtn">🔍 Find Trailer</button></div></div>
+     <div class="field full"><label>HOME PAGE ROWS</label><div style="display:flex;gap:22px;flex-wrap:wrap;font-size:13px"><label style="color:var(--text);font-family:var(--font-sans);font-weight:500;letter-spacing:0"><input type="checkbox" id="moviePopular" style="width:auto"> ⭐ Show in Popular Movies</label><label hidden style="display:none"><input type="checkbox" id="movieIsNew" style="width:auto" checked></label></div></div>
+     <div class="field full"><label for="movieDescription">SYNOPSIS / SELLING NOTES</label><textarea id="movieDescription" placeholder="Plot summary, video quality (4K/1080p), subtitle notes, or personal review…"></textarea></div>
+    </div>
+    <div class="form-actions">
+     <button class="btn primary" type="submit" id="saveMovie">Save Movie</button>
+     <button class="btn" type="button" id="clearForm">Clear Form</button>
+     <button class="btn" type="button" id="cancelEdit" hidden>Cancel Edit</button>
+    </div>
+   </form>
+   <datalist id="qHints"><option>4K<option>1080p<option>720p<option>480p<option>DVD<option>CAM</datalist>
+   <datalist id="genreHints"><option>Action<option>Sci-Fi<option>Thriller<option>Drama<option>Comedy<option>Horror<option>Romance<option>Animation<option>Documentary</datalist>
+   <datalist id="langHints"><option>English<option>Sinhala<option>Malayalam<option>Tamil<option>Hindi<option>Korean<option>Japanese</datalist>
+  </div>
+ </section>
+
+<section class="panel" id="zxSales">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+   <h2 style="font-family:var(--font-display);margin:0;font-size:18px">Sales</h2>
+   <button class="btn small" id="zsCsv">Export CSV</button>
+  </div>
+  <div id="zsStats"></div>
+  <h3 class="zs-h">Sold titles</h3><div id="zsSold"></div>
+  <h3 class="zs-h">Orders sent from this device <small>(tap ✓ when delivered)</small></h3><div id="zsOrders"></div>
+ </section>
+
+ <section class="panel" id="notes">
+  <div class="notes-layout">
+   <div class="note-list">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+     <h2 style="font-family:var(--font-display);margin:0;font-size:17px">Your Notes</h2>
+     <button class="btn primary small" id="newNote">＋ New</button>
+    </div>
+    <div id="notesList"></div>
+   </div>
+   <div class="note-editor">
+    <h2 style="font-family:var(--font-display);margin:0;font-size:17px">Note Editor</h2>
+    <input id="noteTitle" placeholder="Note title (e.g. Weekend Watchlist, Oscar Winners…)">
+    <textarea id="noteBody" placeholder="Write movie recommendations, director lists, subtitle reminders, or cinema thoughts…"></textarea>
+    <div class="form-actions">
+     <button class="btn primary" id="saveNote">Save Note</button>
+     <button class="btn danger" id="deleteNote">Delete</button>
+    </div>
+   </div>
+  </div>
+ </section>
+</main>
+
+<!-- DETAILS & TONIGHT'S FEATURE MODAL -->
+<div class="modal-backdrop" id="movieModal">
+ <div class="modal-card">
+  <div class="modal-poster" id="modalPoster">🎬</div>
+  <div class="modal-body">
+   <div class="modal-tag" id="modalTag">FILM DETAILS</div>
+   <h2 class="modal-title" id="modalTitle">Movie Title</h2>
+   <div class="modal-meta" id="modalMeta">2025 · Action · English</div>
+   <div class="modal-desc" id="modalDesc">No description added.</div>
+   <div id="modalSeasons"></div>
+   <div class="modal-actions">
+    <button class="btn wa" id="modalBuyBtn">💬 Buy on WhatsApp</button>
+    <button class="btn adm" id="modalPopBtn">⭐ Popular</button>
+    <button class="btn adm" id="modalNewBtn" hidden style="display:none">🔥 New Arrival</button>
+    <button class="btn" id="modalCartBtn">🛒 Add to Cart</button>
+    <button class="btn adm" id="modalShareBtn">🖼 Share Image</button>
+    <button class="btn primary" id="modalTrailerBtn">▶ Trailer</button>
+    <button class="btn adm" id="modalToggleStatus">✔ Mark Watched</button>
+    <button class="btn adm" id="modalEditBtn">✏️ Edit</button>
+    <button class="btn adm" id="modalCopyBtn">📋 Copy Listing</button>
+    <button class="btn" id="modalCloseBtn">Close</button>
+   </div>
+  </div>
+ </div>
+</div>
+
+<div class="modal-backdrop" id="trailerModal"><div class="tr-card">
+ <div class="tr-bar"><b id="trTitle">Trailer</b><span><a class="btn small" id="trYt" target="_blank" rel="noopener">Open on YouTube ↗</a> <button class="btn small" id="trClose">✕ Close</button></span></div>
+ <iframe id="trFrame" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
+</div></div>
+<button id="cartFab" hidden>🛒 <span id="cartN">0</span></button>
+<div class="modal-backdrop" id="cartModal"><div class="tr-card" style="max-width:520px">
+ <div class="tr-bar"><b>🛒 Your Cart</b><button class="btn small" id="cartClose">✕ Close</button></div>
+ <div id="cartList"></div>
+ <div id="cartTotal" style="font:700 16px var(--font-sans);margin:12px 4px;color:var(--gold-bright)"></div>
+ <div style="display:flex;gap:8px"><button class="btn wa" id="cartSend" style="flex:1;justify-content:center;padding:12px">💬 Send Order on WhatsApp</button><button class="btn" id="cartClear">Clear</button></div>
+</div></div>
+<div class="modal-backdrop" id="setModal"><div class="tr-card" style="max-width:520px">
+ <div class="tr-bar"><b>⚙ Shop Settings</b></div>
+ <div class="form-grid" style="grid-template-columns:1fr;padding:4px">
+  <div class="field"><label>WHATSAPP NUMBER (with country code)</label><input id="setWA" placeholder="0771234567 or 94771234567"></div>
+  <div class="field"><label>BUNDLE / OFFER BANNER (shown on home)</label><input id="setBundle" placeholder="e.g. 🔥 Any 3 films for Rs. 500!"></div>
+  <div class="field"><label>TMDB API KEY (for ✨ Auto-fill, free at themoviedb.org)</label><input id="setTmdb" placeholder="paste your key"></div>
+  <div class="field"><label>NEW ADMIN PIN (leave empty to keep)</label><input id="setPin" type="password" placeholder="4+ characters"></div>
+ </div>
+ <div class="form-actions" style="padding:4px"><button class="btn primary" id="setSave">Save</button><button class="btn" id="setCancel">Cancel</button></div>
+</div></div>
+<div class="modal-backdrop" id="repModal"><div class="tr-card" style="max-width:560px">
+ <div class="tr-bar"><b>📊 Sales Report</b></div>
+ <div id="repBody" style="padding:6px 4px;font-size:14px"></div>
+ <div class="form-actions" style="padding:4px"><button class="btn" id="repClose">Close</button></div>
+</div></div>
+<div id="selBar" class="adm" hidden>
+ <b id="selCount" style="font-size:13px">0 selected</b>
+ <button class="btn small" id="selAll">All shown</button>
+ <button class="btn small primary" id="selYes">✔ Sinhala Sub</button>
+ <button class="btn small danger" id="selNo">✖ No Sub</button>
+ <button class="btn small" id="selUnk">❔ Not checked</button>
+ <button class="btn small" id="selDone">Done</button>
+</div>
+<footer class="adm">Zinomi Movie Hub · Zinomi Film Store · Export JSON backups regularly.<div id="storageInfo" style="margin-top:6px;font-family:var(--font-mono);font-size:11px"></div></footer>
+<div class="toast" id="toast"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ZX-UPGRADE -->
+
+
+<!-- ZN-NEON --><link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+
+<script src="js/movies.js"></script>
+</body>
+</html>
